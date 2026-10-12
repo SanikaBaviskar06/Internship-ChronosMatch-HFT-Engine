@@ -6,10 +6,27 @@ class MatchingEngine:
         self.sequence = 0
 
     def add_order(self, order_id, side, price, quantity):
+        if not isinstance(side, str):
+            raise ValueError("Side must be BUY or SELL")
+
         side = side.upper()
 
         if side not in ("BUY", "SELL"):
             raise ValueError("Side must be BUY or SELL")
+
+        if (
+            not isinstance(price, (int, float))
+            or isinstance(price, bool)
+            or price <= 0
+        ):
+            raise ValueError("Price must be a positive number")
+
+        if (
+            not isinstance(quantity, int)
+            or isinstance(quantity, bool)
+            or quantity <= 0
+        ):
+            raise ValueError("Quantity must be a positive integer")
 
         self.sequence += 1
 

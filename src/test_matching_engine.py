@@ -16,5 +16,17 @@ def test_price_time_priority():
     print("Price-Time Priority Test Passed!")
 
 
+def test_sell_price_priority():
+    engine = MatchingEngine()
+
+    engine.add_order(1, "SELL", 105, 5)
+    engine.add_order(2, "SELL", 100, 5)
+
+    assert engine.sell_orders[0]["order_id"] == 2
+
+    print("Sell Price Priority Test Passed!")
+
+
 if __name__ == "__main__":
     test_price_time_priority()
+    test_sell_price_priority()

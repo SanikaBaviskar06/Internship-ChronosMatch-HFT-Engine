@@ -51,3 +51,17 @@ def test_buy_order_priority():
     assert engine.buy_orders[2]["order_id"] == 1
 
     print("Buy Order Priority Test Passed!")
+
+
+def test_sell_order_priority():
+    engine = MatchingEngine()
+
+    engine.add_order(1, "SELL", 105, 5)
+    engine.add_order(2, "SELL", 95, 5)
+    engine.add_order(3, "SELL", 100, 5)
+
+    assert engine.sell_orders[0]["order_id"] == 2
+    assert engine.sell_orders[1]["order_id"] == 3
+    assert engine.sell_orders[2]["order_id"] == 1
+
+    print("Sell Order Priority Test Passed!")

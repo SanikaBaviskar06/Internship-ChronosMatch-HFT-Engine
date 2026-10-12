@@ -65,3 +65,25 @@ def test_sell_order_priority():
     assert engine.sell_orders[2]["order_id"] == 1
 
     print("Sell Order Priority Test Passed!")
+
+
+def test_partial_order_matching():
+    engine = MatchingEngine()
+
+    engine.add_order(1, "BUY", 100, 10)
+    engine.add_order(2, "SELL", 100, 4)
+
+    assert len(engine.buy_orders) == 1
+    assert engine.buy_orders[0]["quantity"] == 6
+    assert len(engine.sell_orders) == 0
+
+
+def test_partial_order_matching():
+    engine = MatchingEngine()
+
+    engine.add_order(1, "BUY", 100, 10)
+    engine.add_order(2, "SELL", 100, 4)
+
+    assert len(engine.buy_orders) == 1
+    assert engine.buy_orders[0]["quantity"] == 6
+    assert len(engine.sell_orders) == 0

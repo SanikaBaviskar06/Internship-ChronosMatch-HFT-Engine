@@ -37,3 +37,17 @@ def test_invalid_orders():
         assert False, "Zero quantity should be rejected"
     except ValueError:
         pass
+
+
+def test_buy_order_priority():
+    engine = MatchingEngine()
+
+    engine.add_order(1, "BUY", 100, 5)
+    engine.add_order(2, "BUY", 105, 5)
+    engine.add_order(3, "BUY", 102, 5)
+
+    assert engine.buy_orders[0]["order_id"] == 2
+    assert engine.buy_orders[1]["order_id"] == 3
+    assert engine.buy_orders[2]["order_id"] == 1
+
+    print("Buy Order Priority Test Passed!")

@@ -3,21 +3,33 @@ class MatchingEngine:
     def __init__(self):
         self.buy_orders = []
         self.sell_orders = []
+        self.sequence = 0
 
     def add_order(self, order_id, side, price, quantity):
+        side = side.upper()
+
+        if side not in ("BUY", "SELL"):
+            raise ValueError("Side must be BUY or SELL")
+
+        self.sequence += 1
+
         order = {
             "order_id": order_id,
             "price": price,
             "quantity": quantity,
+            "sequence": self.sequence,
         }
 
-        if side.upper() == "BUY":
+        if side == "BUY":
             self.buy_orders.append(order)
-        elif side.upper() == "SELL":
-            self.sell_orders.append(order)
+            self.buy_orders.sort(
+                key=lambda item: (-item["price"], item["sequence"])
+            )
         else:
-            print("Invalid order side")
-            return
+            self.sell_orders.append(order)
+            self.sell_orders.sort(
+                key=lambda item: (item["price"], item["sequence"])
+            )
 
         self.match_orders()
 
@@ -54,8 +66,9 @@ def main():
     engine = MatchingEngine()
 
     engine.add_order(1, "BUY", 100, 10)
-    engine.add_order(2, "SELL", 99, 5)
-    engine.add_order(3, "SELL", 100, 5)
+    engine.add_order(2, "BUY", 101, 5)
+    engine.add_order(3, "SELL", 100, 3)
+    engine.add_order(4, "SELL", 101, 5)
 
 
 if __name__ == "__main__":

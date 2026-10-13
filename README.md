@@ -68,3 +68,15 @@ The matching engine uses `heapq` for efficient order management. The benchmark m
 ## Disclaimer
 
 This is an educational trading simulation. It does not connect to a real stock exchange or execute real financial trades.
+
+## Benchmark Results
+
+The order insertion benchmark was executed on Python 3.13.14.
+
+| Orders | Total Time (ms) | Average Add Latency (µs) |
+|---:|---:|---:|
+| 1,000 | 0.737 | 0.737 |
+| 5,000 | 3.446 | 0.689 |
+| 10,000 | 5.043 | 0.504 |
+
+These results represent one benchmark run on the development machine. Actual performance may vary depending on hardware and system conditions.

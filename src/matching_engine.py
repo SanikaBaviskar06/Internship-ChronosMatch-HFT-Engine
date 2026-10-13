@@ -1,3 +1,5 @@
+import heapq
+
 
 class MatchingEngine:
     def __init__(self):
@@ -39,28 +41,29 @@ class MatchingEngine:
         }
 
         if side == "BUY":
-            self.buy_orders.append(order)
-            self.buy_orders.sort(
-                key=lambda item: (-item["price"], item["sequence"])
+            heapq.heappush(
+                self.buy_orders,
+                (-price, self.sequence, order)
             )
         else:
-            self.sell_orders.append(order)
-            self.sell_orders.sort(
-                key=lambda item: (item["price"], item["sequence"])
+            heapq.heappush(
+                self.sell_orders,
+                (price, self.sequence, order)
             )
 
         self.match_orders()
 
     def match_orders(self):
         while self.buy_orders and self.sell_orders:
-            buy = self.buy_orders[0]
-            sell = self.sell_orders[0]
+            buy_price, _, buy = self.buy_orders[0]
+            sell_price, _, sell = self.sell_orders[0]
 
-            if buy["price"] < sell["price"]:
+            if -buy_price < sell_price:
                 break
 
             traded_quantity = min(
-                buy["quantity"], sell["quantity"]
+                buy["quantity"],
+                sell["quantity"]
             )
 
             trade = {
@@ -83,10 +86,10 @@ class MatchingEngine:
             sell["quantity"] -= traded_quantity
 
             if buy["quantity"] == 0:
-                self.buy_orders.pop(0)
+                heapq.heappop(self.buy_orders)
 
             if sell["quantity"] == 0:
-                self.sell_orders.pop(0)
+                heapq.heappop(self.sell_orders)
 
 
 def main():

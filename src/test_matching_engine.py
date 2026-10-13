@@ -87,3 +87,16 @@ def test_partial_order_matching():
     assert len(engine.buy_orders) == 1
     assert engine.buy_orders[0]["quantity"] == 6
     assert len(engine.sell_orders) == 0
+
+
+def test_trade_history():
+    engine = MatchingEngine()
+
+    engine.add_order(1, "BUY", 100, 10)
+    engine.add_order(2, "SELL", 100, 4)
+
+    assert len(engine.trades) == 1
+    assert engine.trades[0]["buy_order_id"] == 1
+    assert engine.trades[0]["sell_order_id"] == 2
+    assert engine.trades[0]["price"] == 100
+    assert engine.trades[0]["quantity"] == 4

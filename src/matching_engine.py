@@ -4,6 +4,7 @@ class MatchingEngine:
         self.buy_orders = []
         self.sell_orders = []
         self.sequence = 0
+        self.trades = []
 
     def add_order(self, order_id, side, price, quantity):
         if not isinstance(side, str):
@@ -62,6 +63,15 @@ class MatchingEngine:
                 buy["quantity"], sell["quantity"]
             )
 
+            trade = {
+                "buy_order_id": buy["order_id"],
+                "sell_order_id": sell["order_id"],
+                "price": sell["price"],
+                "quantity": traded_quantity,
+            }
+
+            self.trades.append(trade)
+
             print(
                 f"Trade: BUY {buy['order_id']} / "
                 f"SELL {sell['order_id']} | "
@@ -86,6 +96,10 @@ def main():
     engine.add_order(2, "BUY", 101, 5)
     engine.add_order(3, "SELL", 100, 3)
     engine.add_order(4, "SELL", 101, 5)
+
+    print("\nTrade History:")
+    for trade in engine.trades:
+        print(trade)
 
 
 if __name__ == "__main__":

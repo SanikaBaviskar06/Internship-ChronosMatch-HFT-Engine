@@ -30,6 +30,8 @@ It demonstrates market order processing and matching using Python data structure
 
 ## Project Structure
 
+## Project Structure
+
 ```text
 src/
 ├── ring_buffer.py
@@ -51,7 +53,17 @@ python src/benchmark.py
 
 ## Testing
 
-The latest recorded test run passed all 9 tests.
+## Testing
+
+The project includes automated tests for the ring buffer and matching engine.
+
+Latest test run: **12 tests passed** using `pytest`.
+
+Run the tests with:
+
+```bash
+python -m pytest src/ -v
+```
 
 ## Performance Optimization
 
@@ -71,12 +83,14 @@ This is an educational trading simulation. It does not connect to a real stock e
 
 ## Benchmark Results
 
-The order insertion benchmark was executed on Python 3.13.14.
+## Benchmark Results
+
+The order insertion benchmark was executed using Python 3.13.14.
 
 | Orders | Total Time (ms) | Average Add Latency (µs) |
 |---:|---:|---:|
-| 1,000 | 0.737 | 0.737 |
-| 5,000 | 3.446 | 0.689 |
-| 10,000 | 5.043 | 0.504 |
+| 1,000 | 0.560 | 0.560 |
+| 5,000 | 2.726 | 0.545 |
+| 10,000 | 6.115 | 0.611 |
 
-These results represent one benchmark run on the development machine. Actual performance may vary depending on hardware and system conditions.
+These results represent a single benchmark run on the development machine. Actual performance may vary depending on hardware and system conditions. The benchmark measures order insertion latency, not the performance of the entire trading engine.

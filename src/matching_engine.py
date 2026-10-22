@@ -7,6 +7,7 @@ class MatchingEngine:
         self.sell_orders = []
         self.sequence = 0
         self.trades = []
+        self.order_ids = set()
 
     def add_order(self, order_id, side, price, quantity):
         if not isinstance(side, str):
@@ -31,6 +32,11 @@ class MatchingEngine:
         ):
             raise ValueError("Quantity must be a positive integer")
 
+        # Reject duplicate order IDs
+        if order_id in self.order_ids:
+            raise ValueError("Order ID already exists")
+
+        self.order_ids.add(order_id)
         self.sequence += 1
 
         order = {

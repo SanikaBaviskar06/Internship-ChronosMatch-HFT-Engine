@@ -127,3 +127,14 @@ def test_multiple_partial_matches():
     assert engine.trades[0]["quantity"] == 6
     assert len(engine.buy_orders) == 1
     assert engine.buy_orders[0][2]["quantity"] == 4
+
+def test_duplicate_order_id():
+    engine = MatchingEngine()
+
+    engine.add_order(1, "BUY", 100, 5)
+
+    try:
+        engine.add_order(1, "SELL", 100, 5)
+        assert False, "Duplicate order ID should be rejected"
+    except ValueError as error:
+        assert str(error) == "Order ID already exists"

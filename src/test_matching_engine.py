@@ -1,3 +1,4 @@
+
 from matching_engine import MatchingEngine
 
 
@@ -128,6 +129,7 @@ def test_multiple_partial_matches():
     assert len(engine.buy_orders) == 1
     assert engine.buy_orders[0][2]["quantity"] == 4
 
+
 def test_duplicate_order_id():
     engine = MatchingEngine()
 
@@ -138,3 +140,31 @@ def test_duplicate_order_id():
         assert False, "Duplicate order ID should be rejected"
     except ValueError as error:
         assert str(error) == "Order ID already exists"
+
+
+def test_cancel_buy_order():
+    engine = MatchingEngine()
+    engine.add_order(1, "BUY", 100, 5)
+
+    result = engine.cancel_order(1)
+
+    assert result is True
+    assert len(engine.buy_orders) == 0
+
+
+def test_cancel_sell_order():
+    engine = MatchingEngine()
+    engine.add_order(2, "SELL", 105, 5)
+
+    result = engine.cancel_order(2)
+
+    assert result is True
+    assert len(engine.sell_orders) == 0
+
+
+def test_cancel_non_existing_order():
+    engine = MatchingEngine()
+
+    result = engine.cancel_order(999)
+
+    assert result is False

@@ -1,3 +1,4 @@
+
 import heapq
 
 
@@ -58,6 +59,23 @@ class MatchingEngine:
             )
 
         self.match_orders()
+
+    def cancel_order(self, order_id):
+        # Search in BUY orders
+        for index, item in enumerate(self.buy_orders):
+            if item[2]["order_id"] == order_id:
+                self.buy_orders.pop(index)
+                heapq.heapify(self.buy_orders)
+                return True
+
+        # Search in SELL orders
+        for index, item in enumerate(self.sell_orders):
+            if item[2]["order_id"] == order_id:
+                self.sell_orders.pop(index)
+                heapq.heapify(self.sell_orders)
+                return True
+
+        return False
 
     def match_orders(self):
         while self.buy_orders and self.sell_orders:

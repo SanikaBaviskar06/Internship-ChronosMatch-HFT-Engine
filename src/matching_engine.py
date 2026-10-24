@@ -33,7 +33,6 @@ class MatchingEngine:
         ):
             raise ValueError("Quantity must be a positive integer")
 
-        # Reject duplicate order IDs
         if order_id in self.order_ids:
             raise ValueError("Order ID already exists")
 
@@ -61,14 +60,12 @@ class MatchingEngine:
         self.match_orders()
 
     def cancel_order(self, order_id):
-        # Search in BUY orders
         for index, item in enumerate(self.buy_orders):
             if item[2]["order_id"] == order_id:
                 self.buy_orders.pop(index)
                 heapq.heapify(self.buy_orders)
                 return True
 
-        # Search in SELL orders
         for index, item in enumerate(self.sell_orders):
             if item[2]["order_id"] == order_id:
                 self.sell_orders.pop(index)
@@ -76,6 +73,30 @@ class MatchingEngine:
                 return True
 
         return False
+
+    def get_order_book(self):
+        buy_orders = [
+            {
+                "order_id": item[2]["order_id"],
+                "price": item[2]["price"],
+                "quantity": item[2]["quantity"],
+            }
+            for item in sorted(self.buy_orders)
+        ]
+
+        sell_orders = [
+            {
+                "order_id": item[2]["order_id"],
+                "price": item[2]["price"],
+                "quantity": item[2]["quantity"],
+            }
+            for item in sorted(self.sell_orders)
+        ]
+
+        return {
+            "buy_orders": buy_orders,
+            "sell_orders": sell_orders,
+        }
 
     def match_orders(self):
         while self.buy_orders and self.sell_orders:

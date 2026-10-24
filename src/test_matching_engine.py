@@ -168,3 +168,17 @@ def test_cancel_non_existing_order():
     result = engine.cancel_order(999)
 
     assert result is False
+
+def test_get_order_book():
+    engine = MatchingEngine()
+
+    engine.add_order(1, "BUY", 100, 5)
+    engine.add_order(2, "SELL", 110, 3)
+
+    order_book = engine.get_order_book()
+
+    assert len(order_book["buy_orders"]) == 1
+    assert len(order_book["sell_orders"]) == 1
+
+    assert order_book["buy_orders"][0]["order_id"] == 1
+    assert order_book["sell_orders"][0]["order_id"] == 2

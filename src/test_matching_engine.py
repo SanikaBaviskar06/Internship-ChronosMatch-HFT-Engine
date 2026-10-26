@@ -182,3 +182,20 @@ def test_get_order_book():
 
     assert order_book["buy_orders"][0]["order_id"] == 1
     assert order_book["sell_orders"][0]["order_id"] == 2
+
+
+def test_get_trade_history():
+    engine = MatchingEngine()
+
+    engine.add_order(1, "BUY", 100, 10)
+    engine.add_order(2, "SELL", 100, 4)
+
+    history = engine.get_trade_history()
+
+    assert len(history) == 1
+    assert history[0]["buy_order_id"] == 1
+    assert history[0]["sell_order_id"] == 2
+    assert history[0]["quantity"] == 4
+
+    history[0]["quantity"] = 999
+    assert engine.trades[0]["quantity"] == 4

@@ -98,6 +98,9 @@ class MatchingEngine:
             "sell_orders": sell_orders,
         }
 
+    def get_trade_history(self):
+        return [trade.copy() for trade in self.trades]
+
     def match_orders(self):
         while self.buy_orders and self.sell_orders:
             buy_price, _, buy = self.buy_orders[0]
@@ -146,7 +149,7 @@ def main():
     engine.add_order(4, "SELL", 101, 5)
 
     print("\nTrade History:")
-    for trade in engine.trades:
+    for trade in engine.get_trade_history():
         print(trade)
 
 

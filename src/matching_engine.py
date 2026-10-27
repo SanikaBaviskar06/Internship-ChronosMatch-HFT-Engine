@@ -98,6 +98,18 @@ class MatchingEngine:
             "sell_orders": sell_orders,
         }
 
+    def get_order_book_summary(self):
+        order_book = self.get_order_book()
+
+        buy_count = len(order_book["buy_orders"])
+        sell_count = len(order_book["sell_orders"])
+
+        return {
+            "buy_orders_count": buy_count,
+            "sell_orders_count": sell_count,
+            "total_orders": buy_count + sell_count,
+        }
+
     def get_trade_history(self):
         return [trade.copy() for trade in self.trades]
 
@@ -147,6 +159,9 @@ def main():
     engine.add_order(2, "BUY", 101, 5)
     engine.add_order(3, "SELL", 100, 3)
     engine.add_order(4, "SELL", 101, 5)
+
+    print("\nOrder Book Summary:")
+    print(engine.get_order_book_summary())
 
     print("\nTrade History:")
     for trade in engine.get_trade_history():

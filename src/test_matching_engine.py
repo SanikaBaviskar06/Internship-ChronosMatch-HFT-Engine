@@ -199,3 +199,17 @@ def test_get_trade_history():
 
     history[0]["quantity"] = 999
     assert engine.trades[0]["quantity"] == 4
+
+
+def test_get_order_book_summary():
+    engine = MatchingEngine()
+
+    engine.add_order(1, "BUY", 100, 10)
+    engine.add_order(2, "BUY", 99, 5)
+    engine.add_order(3, "SELL", 110, 4)
+
+    summary = engine.get_order_book_summary()
+
+    assert summary["buy_orders_count"] == 2
+    assert summary["sell_orders_count"] == 1
+    assert summary["total_orders"] == 3

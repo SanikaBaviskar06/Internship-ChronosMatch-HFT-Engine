@@ -168,5 +168,25 @@ def main():
         print(trade)
 
 
+def test_get_best_buy_and_sell_price():
+    engine = MatchingEngine()
+
+    engine.add_order(1, "BUY", 100, 10)
+    engine.add_order(2, "BUY", 101, 5)
+
+    engine.add_order(3, "SELL", 105, 4)
+    engine.add_order(4, "SELL", 103, 6)
+
+    assert engine.get_best_buy_price() == 101
+    assert engine.get_best_sell_price() == 103
+
+
+def test_best_price_when_order_book_is_empty():
+    engine = MatchingEngine()
+
+    assert engine.get_best_buy_price() is None
+    assert engine.get_best_sell_price() is None
+
+
 if __name__ == "__main__":
     main()

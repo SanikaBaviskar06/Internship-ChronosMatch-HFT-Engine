@@ -110,6 +110,20 @@ class MatchingEngine:
             "total_orders": buy_count + sell_count,
         }
 
+    
+    def get_best_buy_price(self):
+        if not self.buy_orders:
+            return None
+
+        return -self.buy_orders[0][0]
+
+    def get_best_sell_price(self):
+        if not self.sell_orders:
+            return None
+
+        return self.sell_orders[0][0]
+
+
     def get_trade_history(self):
         return [trade.copy() for trade in self.trades]
 

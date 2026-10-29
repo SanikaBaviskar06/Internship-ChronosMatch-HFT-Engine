@@ -213,3 +213,23 @@ def test_get_order_book_summary():
     assert summary["buy_orders_count"] == 2
     assert summary["sell_orders_count"] == 1
     assert summary["total_orders"] == 3
+
+
+def test_get_best_buy_and_sell_price():
+    engine = MatchingEngine()
+
+    engine.add_order(1, "BUY", 100, 10)
+    engine.add_order(2, "BUY", 101, 5)
+
+    engine.add_order(3, "SELL", 105, 4)
+    engine.add_order(4, "SELL", 103, 6)
+
+    assert engine.get_best_buy_price() == 101
+    assert engine.get_best_sell_price() == 103
+
+
+def test_best_price_when_order_book_is_empty():
+    engine = MatchingEngine()
+
+    assert engine.get_best_buy_price() is None
+    assert engine.get_best_sell_price() is None

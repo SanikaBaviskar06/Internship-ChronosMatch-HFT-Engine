@@ -233,3 +233,8 @@ def test_best_price_when_order_book_is_empty():
 
     assert engine.get_best_buy_price() is None
     assert engine.get_best_sell_price() is None
+
+def test_get_spread():
+    engine = MatchingEngine()
+
+    assert engine.get_spread() is None

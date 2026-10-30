@@ -123,6 +123,13 @@ class MatchingEngine:
 
         return self.sell_orders[0][0]
 
+    def get_spread(self):
+        best_buy = self.get_best_buy_price()
+        best_sell = self.get_best_sell_price()
+        if best_buy is None or best_sell is None:
+            return None
+        return best_sell - best_buy
+
 
     def get_trade_history(self):
         return [trade.copy() for trade in self.trades]

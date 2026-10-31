@@ -238,3 +238,17 @@ def test_get_spread():
     engine = MatchingEngine()
 
     assert engine.get_spread() is None
+
+def test_get_mid_price():
+    engine = MatchingEngine()
+
+    engine.add_order(1, "BUY", 100, 10)
+    engine.add_order(2, "SELL", 110, 10)
+
+    assert engine.get_mid_price() == 105
+
+
+def test_mid_price_when_order_book_is_empty():
+    engine = MatchingEngine()
+
+    assert engine.get_mid_price() is None

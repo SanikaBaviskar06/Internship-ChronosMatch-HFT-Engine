@@ -130,6 +130,16 @@ class MatchingEngine:
             return None
         return best_sell - best_buy
 
+        # Get order book mid price
+    def get_mid_price(self):
+        best_buy = self.get_best_buy_price()
+        best_sell = self.get_best_sell_price()
+
+        if best_buy is None or best_sell is None:
+            return None
+
+        return (best_buy + best_sell) / 2
+
 
     def get_trade_history(self):
         return [trade.copy() for trade in self.trades]

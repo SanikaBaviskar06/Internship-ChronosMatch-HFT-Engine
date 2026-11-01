@@ -252,3 +252,30 @@ def test_mid_price_when_order_book_is_empty():
     engine = MatchingEngine()
 
     assert engine.get_mid_price() is None
+
+def test_total_buy_order_quantity():
+    engine = MatchingEngine()
+
+    engine.add_order(1, "BUY", 100, 10)
+    engine.add_order(2, "BUY", 101, 5)
+
+    assert engine.get_total_order_quantity("BUY") == 15
+
+
+def test_total_sell_order_quantity():
+    engine = MatchingEngine()
+
+    engine.add_order(1, "SELL", 105, 4)
+    engine.add_order(2, "SELL", 103, 6)
+
+    assert engine.get_total_order_quantity("SELL") == 10
+
+
+def test_total_order_quantity_invalid_side():
+    engine = MatchingEngine()
+
+    try:
+        engine.get_total_order_quantity("INVALID")
+        assert False
+    except ValueError:
+        assert True

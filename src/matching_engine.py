@@ -110,6 +110,19 @@ class MatchingEngine:
             "total_orders": buy_count + sell_count,
         }
 
+        # Get total quantity of orders
+    def get_total_order_quantity(self, side):
+        side = side.upper()
+
+        if side == "BUY":
+            orders = self.buy_orders
+        elif side == "SELL":
+            orders = self.sell_orders
+        else:
+            raise ValueError("Side must be BUY or SELL")
+
+        return sum(item[2]["quantity"] for item in orders)
+
     
     def get_best_buy_price(self):
         if not self.buy_orders:

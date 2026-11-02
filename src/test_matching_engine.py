@@ -279,3 +279,25 @@ def test_total_order_quantity_invalid_side():
         assert False
     except ValueError:
         assert True
+
+def test_get_order_book_depth():
+    engine = MatchingEngine()
+
+    engine.add_order(1, "BUY", 100, 10)
+    engine.add_order(2, "BUY", 100, 5)
+    engine.add_order(3, "BUY", 101, 3)
+
+    depth = engine.get_order_book_depth("BUY")
+
+    assert depth == [
+        {
+            "price": 101,
+            "order_count": 1,
+            "total_quantity": 3,
+        },
+        {
+            "price": 100,
+            "order_count": 2,
+            "total_quantity": 15,
+        },
+    ]

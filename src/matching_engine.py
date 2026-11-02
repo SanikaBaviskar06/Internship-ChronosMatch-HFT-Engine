@@ -110,6 +110,39 @@ class MatchingEngine:
             "total_orders": buy_count + sell_count,
         }
 
+        # Get order book depth
+    def get_order_book_depth(self, side):
+        side = side.upper()
+
+        if side == "BUY":
+            orders = self.buy_orders
+        elif side == "SELL":
+            orders = self.sell_orders
+        else:
+            raise ValueError("Side must be BUY or SELL")
+
+        depth = {}
+
+        for item in orders:
+            order = item[2]
+            price = order["price"]
+
+            if price not in depth:
+                depth[price] = {
+                    "price": price,
+                    "order_count": 0,
+                    "total_quantity": 0,
+                }
+
+            depth[price]["order_count"] += 1
+            depth[price]["total_quantity"] += order["quantity"]
+
+        return sorted(
+            depth.values(),
+            key=lambda item: item["price"],
+            reverse=(side == "BUY"),
+        )
+
         # Get total quantity of orders
     def get_total_order_quantity(self, side):
         side = side.upper()

@@ -301,3 +301,28 @@ def test_get_order_book_depth():
             "total_quantity": 15,
         },
     ]
+
+def test_get_order_by_id():
+    engine = MatchingEngine()
+
+    engine.add_order(1, "BUY", 100, 10)
+    engine.add_order(2, "SELL", 110, 5)
+
+    buy_order = engine.get_order_by_id(1)
+    sell_order = engine.get_order_by_id(2)
+
+    assert buy_order == {
+        "order_id": 1,
+        "side": "BUY",
+        "price": 100,
+        "quantity": 10,
+    }
+
+    assert sell_order == {
+        "order_id": 2,
+        "side": "SELL",
+        "price": 110,
+        "quantity": 5,
+    }
+
+    assert engine.get_order_by_id(999) is None

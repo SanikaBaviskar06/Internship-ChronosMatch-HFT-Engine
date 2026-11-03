@@ -143,6 +143,32 @@ class MatchingEngine:
             reverse=(side == "BUY"),
         )
 
+        # Get order details by order ID
+    def get_order_by_id(self, order_id):
+        for item in self.buy_orders:
+            order = item[2]
+
+            if order["order_id"] == order_id:
+                return {
+                    "order_id": order["order_id"],
+                    "side": "BUY",
+                    "price": order["price"],
+                    "quantity": order["quantity"],
+                }
+
+        for item in self.sell_orders:
+            order = item[2]
+
+            if order["order_id"] == order_id:
+                return {
+                    "order_id": order["order_id"],
+                    "side": "SELL",
+                    "price": order["price"],
+                    "quantity": order["quantity"],
+                }
+
+        return None
+
         # Get total quantity of orders
     def get_total_order_quantity(self, side):
         side = side.upper()

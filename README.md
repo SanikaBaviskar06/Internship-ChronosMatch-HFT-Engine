@@ -57,7 +57,12 @@ python src/benchmark.py
 
 The project includes automated tests for the ring buffer and matching engine.
 
-Latest test run: **13 tests passed** using `pytest`.
+Latest test run: 29 tests passed in matching engine.
+
+Run the matching engine tests with:
+
+py -m pytest src/test_matching_engine.py -v
+using `pytest`.
 
 Run the tests with:
 

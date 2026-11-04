@@ -169,6 +169,31 @@ class MatchingEngine:
 
         return None
 
+        # Calculate weighted average order price
+    def get_weighted_average_price(self, side):
+        side = side.upper()
+
+        if side == "BUY":
+            orders = self.buy_orders
+        elif side == "SELL":
+            orders = self.sell_orders
+        else:
+            raise ValueError("Side must be BUY or SELL")
+
+        total_value = sum(
+            item[2]["price"] * item[2]["quantity"]
+            for item in orders
+        )
+
+        total_quantity = sum(
+            item[2]["quantity"] for item in orders
+        )
+
+        if total_quantity == 0:
+            return None
+
+        return total_value / total_quantity
+
         # Get total quantity of orders
     def get_total_order_quantity(self, side):
         side = side.upper()

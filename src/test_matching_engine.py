@@ -1,4 +1,4 @@
-
+import pytest
 from matching_engine import MatchingEngine
 
 
@@ -326,3 +326,15 @@ def test_get_order_by_id():
     }
 
     assert engine.get_order_by_id(999) is None
+
+def test_get_weighted_average_price():
+    engine = MatchingEngine()
+
+    engine.add_order(1, "BUY", 100, 10)
+    engine.add_order(2, "BUY", 110, 5)
+
+    engine.add_order(3, "SELL", 120, 4)
+    engine.add_order(4, "SELL", 130, 6)
+
+    assert engine.get_weighted_average_price("BUY") == pytest.approx(103.33, rel=1e-2)
+    assert engine.get_weighted_average_price("SELL") == pytest.approx(126.0)
